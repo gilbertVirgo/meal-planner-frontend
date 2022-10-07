@@ -10,12 +10,13 @@ import units from "./units";
 export default ({ defaultValue, onNewIngredient, show, onHide }) => {
 	const titleInputRef = React.useRef(null);
 
-	const [title, setTitle] = React.useState("");
+	const [title, setTitle] = React.useState(defaultValue);
 	const [lastUsedUnit, setLastUsedUnit] = React.useState("");
 
 	const [errorMessage, setErrorMessage] = React.useState();
 
-	const isFormValid = () => title !== "" && lastUsedUnit !== "";
+	const isFormValid = () =>
+		title !== "" && lastUsedUnit !== "" && lastUsedUnit !== "Choose a unit";
 
 	// Simulated submit, because you can't have a form within a form
 	const handleSubmit = async () => {
@@ -71,6 +72,7 @@ export default ({ defaultValue, onNewIngredient, show, onHide }) => {
 							)
 						}
 					>
+						<option value="">Choose a unit</option>
 						{units.map((unit, index) => (
 							<option key={`option-2-${index}`} value={unit}>
 								{unit}
