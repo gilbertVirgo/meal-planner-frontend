@@ -57,36 +57,44 @@ export default ({
 				value={filter}
 				onChange={({ target: { value } }) => setFilter(value)}
 				onFocus={() => setShowList(true)}
-				onBlur={() => {
-					setTimeout(() => setShowList(false), 100);
-				}}
 				onKeyDown={handleKeyDown}
+				style={{ position: "relative", zIndex: "999" }}
 			/>
 
 			{/* Only show this while input is focused. Like a datalist */}
 			{showList && (
-				<CustomListGroup>
-					{formattedItems.map((props, index) => (
+				<React.Fragment>
+					<CustomListGroup.ClickTrap
+						onClick={() => setShowList(false)}
+					/>
+					<CustomListGroup>
+						{formattedItems.map((props, index) => (
+							<ListGroup.Item
+								key={`dl-item-${index}`}
+								type="button"
+								action
+								onClick={() => {
+									onItemSelected(props);
+									setShowList(false);
+								}}
+								variant={
+									index === keySelectedIndex && "primary"
+								}
+								style={{ position: "relative" }}
+							>
+								{props.title}
+								<AddSymbol />
+							</ListGroup.Item>
+						))}
 						<ListGroup.Item
-							key={`dl-item-${index}`}
-							type="button"
 							action
-							onPointerDown={() => onItemSelected(props)}
-							variant={index === keySelectedIndex && "primary"}
-							style={{ position: "relative" }}
+							type="button"
+							onClick={() => onCreateNewItem(filter)}
 						>
-							{props.title}
-							<AddSymbol />
+							<strong>Create new item</strong>
 						</ListGroup.Item>
-					))}
-					<ListGroup.Item
-						action
-						type="button"
-						onPointerDown={() => onCreateNewItem(filter)}
-					>
-						<strong>Create new item</strong>
-					</ListGroup.Item>
-				</CustomListGroup>
+					</CustomListGroup>
+				</React.Fragment>
 			)}
 		</React.Fragment>
 	);

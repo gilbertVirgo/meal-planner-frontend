@@ -36,9 +36,7 @@ export default () => {
 							<Form.Text muted>No ingredients yet.</Form.Text>
 						</Section>
 						<Section>
-							<Button href="/meal-plan">
-								Review this week's meal plan
-							</Button>
+							<Button href="/meal-plan">Review meal plan</Button>
 						</Section>
 					</React.Fragment>
 				)}

@@ -1,6 +1,7 @@
 import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import Button from "react-bootstrap/Button";
+import { ButtonGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Form from "react-bootstrap/Form";
 import Header from "../../components/Header";
@@ -50,6 +51,14 @@ export default () => {
 
 		const temp = { ...plan };
 		temp.recipes[dayIndex] = null;
+		setPlan(temp);
+
+		patch("plan", temp).then(loadData);
+	};
+
+	const handleReset = () => {
+		const temp = { ...plan };
+		temp.recipes = Array(7).fill(null);
 		setPlan(temp);
 
 		patch("plan", temp).then(loadData);
@@ -153,7 +162,18 @@ export default () => {
 			)}
 
 			<hr />
-			<Button href="/checklist">Review this week's checklist</Button>
+			<div style={{ display: "flex", columnGap: "15px" }}>
+				{[
+					{
+						children: "Reset",
+						onClick: handleReset,
+						variant: "danger",
+					},
+					{ children: "Review checklist", href: "/checklist" },
+				].map((props) => (
+					<Button {...props} />
+				))}
+			</div>
 
 			<RecipeBrowserModal
 				show={showRecipeBrowserModal}

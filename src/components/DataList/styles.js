@@ -29,3 +29,12 @@ export const CustomListGroup = styled(ListGroup)`
 		padding-right: 40px;
 	}
 `;
+
+CustomListGroup.ClickTrap = styled.div`
+	position: fixed;
+	z-index: 998;
+	left: 0;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+`;
