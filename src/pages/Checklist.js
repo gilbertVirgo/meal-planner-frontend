@@ -6,6 +6,26 @@ import React from "react";
 import Section from "../components/Section";
 import Spinner from "react-bootstrap/Spinner";
 import get from "../api/get";
+import styled from "styled-components";
+
+const CustomCheckbox = styled(Form.Check)`
+	input[type="checkbox"] {
+		/* scale: 1; */
+		width: 20px;
+		height: 20px;
+		margin-right: 15px;
+
+		&:checked + label {
+			text-decoration: line-through;
+		}
+	}
+
+	input,
+	label {
+		display: inline-block;
+		vertical-align: middle;
+	}
+`;
 
 export default () => {
 	const [ingredients, setIngredients] = React.useState();
@@ -23,7 +43,7 @@ export default () => {
 				{ingredients ? (
 					ingredients.map(({ title }, index) => (
 						<ListGroup.Item key={`cl-item-${index}`}>
-							<Form.Check label={title} />
+							<CustomCheckbox label={title} />
 						</ListGroup.Item>
 					))
 				) : (
