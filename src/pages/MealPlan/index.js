@@ -170,8 +170,8 @@ export default () => {
 						variant: "danger",
 					},
 					{ children: "Review checklist", href: "/checklist" },
-				].map((props) => (
-					<Button {...props} />
+				].map((props, index) => (
+					<Button key={`button-${index}`} {...props} />
 				))}
 			</div>
 
