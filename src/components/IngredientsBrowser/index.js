@@ -12,7 +12,7 @@ import get from "../../api/get";
 import units from "./units";
 
 export default ({ chosenIngredients, onChange }) => {
-	const [ingredients, setIngredients] = React.useState([]);
+	const [ingredients, setIngredients] = React.useState();
 	const [loadRequired, setLoadRequired] = React.useState(true);
 	const [showNewIngredientModal, setShowNewIngredientModal] =
 		React.useState(false);
@@ -62,19 +62,15 @@ export default ({ chosenIngredients, onChange }) => {
 		);
 	};
 
-	return ingredients.length ? (
+	return ingredients ? (
 		<React.Fragment>
 			<Section>
-				{ingredients.length ? (
-					<DataList
-						items={ingredients}
-						filteredProperty="title"
-						onItemSelected={handleIngredientSelected}
-						onCreateNewItem={handleCreateNewItem}
-					/>
-				) : (
-					<Spinner animation="border" role="status" />
-				)}
+				<DataList
+					items={ingredients}
+					filteredProperty="title"
+					onItemSelected={handleIngredientSelected}
+					onCreateNewItem={handleCreateNewItem}
+				/>
 			</Section>
 
 			<Section>
