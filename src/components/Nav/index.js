@@ -6,9 +6,15 @@ import Section from "../Section";
 
 export default () => (
 	<Section>
-		<Navbar bg="light" expand="lg">
+		<Navbar bg="light" expand="lg" style={{ backgroundColor: "#6E9C4A" }}>
 			<Container style={{ justifyContent: "space-between" }}>
-				<Navbar.Brand href="/">Meal Planner</Navbar.Brand>
+				<Navbar.Brand href="/">
+					<img
+						src={require("../../assets/logo192.png")}
+						height={`${192 / 6}px`}
+						style={{ borderRadius: `${192 / 6}px` }}
+					/>
+				</Navbar.Brand>
 				<Navbar.Toggle />
 				<Navbar.Collapse>
 					<Nav>
