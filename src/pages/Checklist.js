@@ -31,19 +31,27 @@ export default () => {
 	const [ingredients, setIngredients] = React.useState();
 
 	React.useEffect(() => {
-		get("plan/ingredients").then(setIngredients);
+		get("plan/checklist").then(setIngredients);
 	}, []);
 
 	const noIngredients = ingredients && ingredients.length === 0;
+
+	if (ingredients) console.log({ ingredients });
 
 	return (
 		<React.Fragment>
 			<Header>Checklist</Header>
 			<ListGroup variant="flush">
 				{ingredients ? (
-					ingredients.map(({ title }, index) => (
+					ingredients.map(({ title, quantity }, index) => (
 						<ListGroup.Item key={`cl-item-${index}`}>
-							<CustomCheckbox label={title} />
+							<CustomCheckbox
+								label={
+									<React.Fragment>
+										<strong>{title}</strong> ({quantity})
+									</React.Fragment>
+								}
+							/>
 						</ListGroup.Item>
 					))
 				) : (

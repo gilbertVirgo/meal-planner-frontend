@@ -14,9 +14,11 @@ export default () => {
 				{actions.map(({ title, link }, index) => (
 					<Card key={`action-${index}`} variant="secondary">
 						<Card.Body>
-							<h3>{title}</h3>
-							<Button href={link.href}>{link.text}</Button>
+							<h4>{title}</h4>
 						</Card.Body>
+						<Card.Footer>
+							<Button href={link.href}>{link.text}</Button>
+						</Card.Footer>
 					</Card>
 				))}
 			</Columns>

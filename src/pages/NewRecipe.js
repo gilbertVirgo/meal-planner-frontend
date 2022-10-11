@@ -27,11 +27,14 @@ export default () => {
 
 			put("recipe", {
 				title,
-				ingredients: chosenIngredients.map(({ id, amount, unit }) => ({
-					id,
-					amount,
-					unit,
-				})),
+				ingredients: chosenIngredients.map(
+					({ id, title: ingredientTitle, amount, unit }) => ({
+						id,
+						amount,
+						unit,
+						title: ingredientTitle,
+					})
+				),
 			})
 				.then(() => history.push("/success/new-recipe"))
 				.catch((err) => setErrorMessage(err.toString()))

@@ -1,12 +1,12 @@
-import { faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { Button, ListGroup, MiniButtonGroup } from "react-bootstrap";
+import { faClose, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 
-import Button from "react-bootstrap/Button";
-import { ButtonGroup } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Form from "react-bootstrap/Form";
 import Header from "../../components/Header";
 import { Info } from "luxon";
 import InputGroup from "react-bootstrap/InputGroup";
+import MiniButton from "../../components/MiniButton";
 import React from "react";
 import RecipeBrowserModal from "../../components/RecipeBrowserModal";
 import Spinner from "react-bootstrap/Spinner";
@@ -40,17 +40,17 @@ export default () => {
 
 	const finishAddingRecipe = (recipeId) => {
 		const temp = { ...plan };
-		temp.recipes[editingDayIndex] = recipeId;
+		temp.recipes[editingDayIndex].push(recipeId);
 		setPlan(temp);
 
 		patch("plan", temp).then(loadData);
 	};
 
-	const handleRemoveRecipe = (dayIndex) => {
-		setEditingDayIndex(dayIndex);
-
+	const handleRemoveRecipe = ({ dayIndex, id }) => {
 		const temp = { ...plan };
-		temp.recipes[dayIndex] = null;
+		temp.recipes[dayIndex] = temp.recipes[dayIndex].filter(
+			(r) => r.id !== id
+		);
 		setPlan(temp);
 
 		patch("plan", temp).then(loadData);
@@ -79,7 +79,11 @@ export default () => {
 							{["Day", "Recipe"].map((title, index) => (
 								<td
 									key={`td-${index}`}
-									style={{ width: "50%" }}
+									style={
+										index === 0
+											? { width: "fit-content" }
+											: {}
+									}
 								>
 									<strong>{title}</strong>
 								</td>
@@ -87,9 +91,7 @@ export default () => {
 						</tr>
 					</thead>
 					<tbody>
-						{plan.recipes.map((id, dayIndex) => {
-							const recipe = recipes.find((r) => r.id === id);
-
+						{plan.recipes.map((recipeIds, dayIndex) => {
 							return (
 								<tr key={`tr-${dayIndex}`}>
 									<td>{Info.weekdays("long")[dayIndex]}</td>
@@ -97,60 +99,78 @@ export default () => {
 										style={{
 											justifyContent: "space-between",
 											display: "flex",
+											padding: 0,
+											position: "relative",
 										}}
 									>
-										{recipe && recipe.title ? (
-											<React.Fragment>
-												{recipe.title}
-												<Button
-													size="sm"
-													variant="danger"
-													onClick={() =>
-														handleRemoveRecipe(
-															dayIndex
-														)
-													}
-												>
-													{editingDayIndex ===
-													dayIndex ? (
-														<Spinner
-															as="span"
-															size="sm"
-															animation="border"
-														/>
-													) : (
-														<FontAwesomeIcon
-															icon={faTrash}
-														/>
-													)}
-												</Button>
-											</React.Fragment>
-										) : (
-											<InputGroup>
-												<Button
-													size="sm"
+										<ListGroup
+											variant="flush"
+											style={{ width: "100%" }}
+										>
+											{recipeIds.length
+												? recipeIds.map((id) => {
+														const recipe =
+															recipes.find(
+																(r) =>
+																	r.id === id
+															);
+
+														return (
+															<ListGroup.Item
+																style={{
+																	backgroundColor:
+																		"transparent",
+																	display:
+																		"flex",
+																	justifyContent:
+																		"space-between",
+																}}
+															>
+																{recipe.title}{" "}
+																<MiniButton
+																	variant="danger"
+																	size="sm"
+																	onClick={() =>
+																		handleRemoveRecipe(
+																			{
+																				dayIndex,
+																				id,
+																			}
+																		)
+																	}
+																>
+																	<FontAwesomeIcon
+																		icon={
+																			faClose
+																		}
+																	/>
+																</MiniButton>
+															</ListGroup.Item>
+														);
+												  })
+												: ""}
+											<ListGroup.Item
+												style={{
+													backgroundColor:
+														"transparent",
+													textAlign: "center",
+												}}
+											>
+												<MiniButton
 													variant="secondary"
+													size="sm"
 													onClick={() =>
 														beginAddingRecipe(
 															dayIndex
 														)
 													}
 												>
-													{editingDayIndex ===
-													dayIndex ? (
-														<Spinner
-															as="span"
-															size="sm"
-															animation="border"
-														/>
-													) : (
-														<FontAwesomeIcon
-															icon={faPlus}
-														/>
-													)}
-												</Button>
-											</InputGroup>
-										)}
+													<FontAwesomeIcon
+														icon={faPlus}
+													/>
+												</MiniButton>
+											</ListGroup.Item>
+										</ListGroup>
 									</td>
 								</tr>
 							);
@@ -183,3 +203,55 @@ export default () => {
 		</React.Fragment>
 	);
 };
+
+// recipe && recipe.title ? (
+// 	<React.Fragment>
+// 		{recipe.title}
+// 		<MiniButton
+// 			size="sm"
+// 			variant="danger"
+// 			onClick={() =>
+// 				handleRemoveRecipe(
+// 					dayIndex
+// 				)
+// 			}
+// 		>
+// 			{editingDayIndex ===
+// 			dayIndex ? (
+// 				<Spinner
+// 					as="span"
+// 					size="sm"
+// 					animation="border"
+// 				/>
+// 			) : (
+// 				<FontAwesomeIcon
+// 					icon={faTrash}
+// 				/>
+// 			)}
+// 		</MiniButton>
+// 	</React.Fragment>
+// ) : (
+// 	<InputGroup>
+// 		<MiniButton
+// 			size="sm"
+// 			variant="secondary"
+// 			onClick={() =>
+// 				beginAddingRecipe(
+// 					dayIndex
+// 				)
+// 			}
+// 		>
+// 			{editingDayIndex ===
+// 			dayIndex ? (
+// 				<Spinner
+// 					as="span"
+// 					size="sm"
+// 					animation="border"
+// 				/>
+// 			) : (
+// 				<FontAwesomeIcon
+// 					icon={faPlus}
+// 				/>
+// 			)}
+// 		</MiniButton>
+// 	</InputGroup>
