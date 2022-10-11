@@ -23,8 +23,10 @@ export default () => {
 
 	const loadData = () => {
 		get("plan").then((plan) => {
-			setPlan(plan);
-			get("plan/recipes").then(setRecipes);
+			get("plan/recipes").then((recipes) => {
+				setPlan(plan);
+				setRecipes(recipes);
+			});
 		});
 	};
 
@@ -41,25 +43,25 @@ export default () => {
 	const finishAddingRecipe = (recipeId) => {
 		const temp = { ...plan };
 		temp.recipes[editingDayIndex].push(recipeId);
-		setPlan(temp);
 
 		patch("plan", temp).then(loadData);
 	};
 
 	const handleRemoveRecipe = ({ dayIndex, id }) => {
 		const temp = { ...plan };
+
+		console.log({ recipeIds: temp.recipes[dayIndex], id });
+
 		temp.recipes[dayIndex] = temp.recipes[dayIndex].filter(
-			(r) => r.id !== id
+			(rId) => rId !== id
 		);
-		setPlan(temp);
 
 		patch("plan", temp).then(loadData);
 	};
 
 	const handleReset = () => {
 		const temp = { ...plan };
-		temp.recipes = Array(7).fill(null);
-		setPlan(temp);
+		temp.recipes = Array(7).fill([]);
 
 		patch("plan", temp).then(loadData);
 	};
