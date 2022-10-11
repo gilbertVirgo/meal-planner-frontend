@@ -18,6 +18,7 @@ export default ({ chosenIngredients, onChange }) => {
 		React.useState(false);
 	const [newIngredientModalDefaultValue, setNewIngredientModalDefaultValue] =
 		React.useState("");
+	const [newIngredientToLoad, setNewIngredientToLoad] = React.useState();
 
 	React.useEffect(() => {
 		if (loadRequired) {
@@ -169,7 +170,10 @@ export default ({ chosenIngredients, onChange }) => {
 				defaultValue={newIngredientModalDefaultValue}
 				show={showNewIngredientModal}
 				onHide={() => setShowNewIngredientModal(false)}
-				onNewIngredient={() => setLoadRequired(true)}
+				onNewIngredient={(props) => {
+					handleIngredientSelected(props);
+					setLoadRequired(true);
+				}}
 			/>
 		</React.Fragment>
 	) : (

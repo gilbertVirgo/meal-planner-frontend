@@ -22,12 +22,12 @@ export default () => {
 	const [editingDayIndex, setEditingDayIndex] = React.useState();
 
 	const loadData = () => {
-		get("plan").then((plan) => {
+		get("plan").then((plan) =>
 			get("plan/recipes").then((recipes) => {
 				setPlan(plan);
 				setRecipes(recipes);
-			});
-		});
+			})
+		);
 	};
 
 	React.useEffect(() => {

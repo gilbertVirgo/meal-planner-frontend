@@ -25,7 +25,7 @@ export default ({ defaultValue, onNewIngredient, show, onHide }) => {
 				"Please make sure to fill out the required fields."
 			);
 
-		await put("ingredient", {
+		const { id } = await put("ingredient", {
 			title,
 			lastUsedUnit,
 		});
@@ -33,7 +33,7 @@ export default ({ defaultValue, onNewIngredient, show, onHide }) => {
 		setTitle(defaultValue);
 		setLastUsedUnit("");
 
-		onNewIngredient();
+		onNewIngredient({ id, title, lastUsedUnit });
 		onHide();
 	};
 

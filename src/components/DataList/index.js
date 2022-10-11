@@ -48,7 +48,11 @@ export default ({
 	React.useEffect(() => {
 		if (!showList) resetKeySelectedIndex();
 	}, [showList]);
-	React.useEffect(() => resetKeySelectedIndex(), [items]);
+
+	React.useEffect(() => {
+		setFilter("");
+		resetKeySelectedIndex();
+	}, [items]);
 
 	return (
 		<React.Fragment>
@@ -89,7 +93,10 @@ export default ({
 						<ListGroup.Item
 							action
 							type="button"
-							onClick={() => onCreateNewItem(filter)}
+							onClick={() => {
+								setShowList(false);
+								onCreateNewItem(filter);
+							}}
 						>
 							<strong>Create new item</strong>
 						</ListGroup.Item>
