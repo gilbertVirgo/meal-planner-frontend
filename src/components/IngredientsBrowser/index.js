@@ -18,7 +18,6 @@ export default ({ chosenIngredients, onChange }) => {
 		React.useState(false);
 	const [newIngredientModalDefaultValue, setNewIngredientModalDefaultValue] =
 		React.useState("");
-	const [newIngredientToLoad, setNewIngredientToLoad] = React.useState();
 
 	React.useEffect(() => {
 		if (loadRequired) {
