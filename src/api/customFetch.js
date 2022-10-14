@@ -1,4 +1,5 @@
-const baseURL = "https://lucy-meal-planner-backend.herokuapp.com";
+// const baseURL = "https://lucy-meal-planner-backend.herokuapp.com";
+const baseURL = "https://lucy-meal-planner-backend.onrender.com";
 // const baseURL = "http://localhost:5000";
 
 export default async ({ method, route, body }) => {
