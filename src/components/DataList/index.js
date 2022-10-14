@@ -20,7 +20,11 @@ export default ({
 		)
 		.sort((a, b) => a[filteredProperty].localeCompare(b[filteredProperty]));
 
-	const resetKeySelectedIndex = () => setKeySelectedIndex(-1);
+	const reset = () => {
+		setFilter("");
+		setShowList(false);
+		setKeySelectedIndex(-1);
+	};
 
 	const handleKeyDown = (event) => {
 		switch (event.key) {
@@ -41,17 +45,16 @@ export default ({
 				}
 				break;
 			default:
-				resetKeySelectedIndex();
+				setKeySelectedIndex(-1);
 		}
 	};
 
 	React.useEffect(() => {
-		if (!showList) resetKeySelectedIndex();
+		if (!showList) reset();
 	}, [showList]);
 
 	React.useEffect(() => {
-		setFilter("");
-		resetKeySelectedIndex();
+		reset();
 	}, [items]);
 
 	return (
